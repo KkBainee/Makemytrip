@@ -5,9 +5,25 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: darkseagreen;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family:cursive,
     monospace;
+}
+
+html,body{
+  min-height: 100vh;
+}
+
+/* footer{
+  height: 150px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+} */
+.sticky-footer{
+  position: sticky;
+  top:100%;
 }

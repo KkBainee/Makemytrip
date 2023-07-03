@@ -1,0 +1,406 @@
+
+import { Button } from "bootstrap";
+import {useState} from 'react';
+
+import './App.css'
+import image from './image1/tirupati.jpeg'
+function App() {
+  //state
+  let name='Kumkum'
+  let add={city:'banglore',pincode:'500049'}
+  //ruturn react element
+  return (
+    <div className='text-center container' >
+    
+   <h1>Welcome Home</h1>
+   <h3>{name}</h3>
+   <h3>Pincode is {add.pincode}</h3>
+   <img src={image} className='w-50' alt=""/>
+   </div>
+  )
+
+let users=[
+  {
+    id:1,
+    name:'kk',
+    city:'miyapur'
+  },
+  {
+    id:2,
+    name:'abhi',
+    city:'srd'
+  }
+]
+  const handleEvent=(a)=>{
+    console.log("Button is Clicked",a)
+  }
+
+return(
+  <div className="container text-center">
+    {/* tble */}
+    <table className="table text-center">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NAME</th>
+          <th>CITY</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+         users.map((userObj)=><tr key={userObj.id}>
+          <td>{userObj.id}</td>
+          <td>{userObj.name}</td>
+          <td>{userObj.city}</td>
+         </tr>) 
+        }
+      </tbody>  
+    </table>
+    <button className="btn btn-success mt-5" onClick={()=>handleEvent(80)}>SUBMIT</button>
+  </div>
+)
+}
+export default App;
+
+//impoting data fom parent to child
+import child1 from './components/child1';
+import {useState} from 'react';
+function App(){
+  let [name,setName]=useState('kk');
+  return(
+    <div className="container">
+      <h1>Hello From Root Component</h1>
+      <child1>{name}</child1>
+    </div>
+  )
+}
+export default App;
+
+function child1(props){
+    return(
+        <div>
+            <h1>Hello fom Child Component</h1>
+            <h1>Child component</h1></div>
+    )
+}
+export default child1;
+
+//API Call using fetch function
+import Useeffectdemo from './components/Useeffectdemo';
+import {useState,useEffect} from 'react';
+function App(){
+  return(
+    <div className="conatiner text-center mt-5 ">
+      <Useeffectdemo></Useeffectdemo>
+    </div>
+  )
+}
+export default App;
+
+import {useState, useEffect} from 'react';
+function Useeffectdemo(){
+    let [users,setUsers]=useState([])
+    useEffect(() => {
+        fetch("https://jsonplaceholder.typicode.com/posts")
+        .then(response => response.json())
+        .then(apiData => setUsers(apiData))
+        .catch(err  => console.log(err))
+    },[])
+
+    return(
+        <div className="container">
+        <table className="table text-center ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Id</th>
+                    <th>kd</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    users.map((userObj)=><tr key={userObj.id}>
+                        <td>
+                            {userObj.userId}
+                        </td>
+                        <td>
+                            {userObj.id}
+                        </td>
+                        <td>
+                            {userObj.title}
+                        </td>
+                    </tr>)
+                }
+            </tbody>
+        </table>
+        </div>
+    )
+}
+export default Useeffectdemo;
+
+
+
+
+
+//REDUX_DEMO
+//Userslice.js
+import {createSlice} from '@reduxjs/toolkit'
+export const Userslice =createSlice({
+    name:"user",
+    initialState:[],
+    reducers:{
+        addUser:(state,action)=>{
+            state.push(action.payload)
+        }
+    }
+}) 
+export const {addUser}=Userslice.actions
+export default Userslice.reducer
+
+//UsersList.js
+
+import React from 'react'
+import {useSelector} from 'react-redux'
+
+
+function UsersList() {
+    let users=useSelector(state=>state.users)  
+    console.log("users are",users)  
+    return (
+        <div>
+                <div className="container">
+                <table className="table text-center ">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>DoB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            users.map((userObj,index)=><tr key={index}>
+                                <td>
+                                    {userObj.username}
+                                </td>
+                                <td>
+                                    {userObj.email}
+                                </td>
+                                <td>
+                                    {userObj.dob}
+                                </td>
+                            </tr>)
+                        }
+                    </tbody>
+                </table>
+                </div>
+
+
+
+        </div>
+    )
+}
+
+export default UsersList
+
+
+import React from 'react'
+import Adduser from './Adduser'
+import UsersList from './UsersList'
+import { Provider } from 'react-redux'
+
+function About1() {
+    return (
+        <div className='container text-center mt-5'>
+            <div className='row'>
+                <div className='row mt-5'>
+                    <div className='col-sm-6'>
+                        <Adduser/>
+                    </div>
+                    <div className='col-sm-6'>
+                        <UsersList/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default About1
+//Adduser.js
+import React from 'react'
+import {useForm} from 'react-hook-form'
+import { addUser } from './Userslice'
+import {useDispatch} from 'react-redux'
+
+function Adduser() {
+    
+    let {register,handleSubmit,formState:{errors}}=useForm()
+    let dispatch = useDispatch()
+    const onFormSubmit=(userObj)=>{
+            console.log(userObj);
+            let actionObj=addUser(userObj)
+            dispatch(actionObj)
+        }
+
+
+
+    return (
+            <div className='row mt-5'>
+                <div className='col-11 col-sm-8 col-md-6 mx-auto mt-3'>
+                    <form onSubmit={handleSubmit(onFormSubmit)}>
+                        <div className='mb-3'>
+                            <label htmlFor='un'>Username</label>
+                            <input type="text" id='un' className='form-control' {...register("username",{required:true,minLength:4})}/>
+                            {errors.username?.type==='required' && <p className='text-danger'>* Username Required</p>}
+                            {errors.username?.type==='minLength' && <p className='text-danger'>* Minimum length required is 4 characters</p>}
+                        </div>
+                        <div className='mb-3'>
+                            <label htmlFor='email'>Email</label>
+                            <input type="text" id='email' className='form-control' {...register("email")}/>
+                            
+                        </div>  
+                        <div className='mb-3'>
+                            <label htmlFor='dob'>Date Of Birth</label>
+                            <input type="date" id='dob' className='form-control' {...register("dob")}/>
+                        </div>    
+                        <div className='mb-3 text-center'> 
+                            <button type="submit" className='btn btn-success'>Submit</button>
+                        </div>               
+
+                    </form>
+                </div>
+        </div>
+    )
+}
+
+export default Adduser
+
+//store.js
+import {configureStore} from '@reduxjs/toolkit'
+import userReducer from './components/Userslice.js'
+
+export const store = configureStore({
+    reducer:{
+        users: userReducer
+    }
+})
+
+
+
+
+
+
+
+//waste part app.js
+import React from 'react'
+import {Route, Routes,Link} from 'react-router-dom'
+import Home1 from './components/Home1'
+import About1 from './components/About1'
+import Packages1 from './components/Packages1'
+import Register1 from './components/Register1'
+import Domestic from './components/Domestic'
+import International from './components/International'
+import Footer1 from './components/Footer1'
+
+function App() {
+    return (
+        <div>
+            {/* Navbar */}
+            
+            <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+              <div className="container-fluid">
+                <a className="navbar-brand" href="#">TravelGuide&Co</a>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                  <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                      <Link className="nav-link active" to="Home1">Home</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="About1">About</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link"to="Packages1">Packages</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="Register1">Register</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+              <h2>Heading</h2>
+
+
+
+
+<Route path="/Pack" element={<Pack/>}>
+                    {/* <Route path="" element={<Domestic/>}/>
+                    <Route path="International" element={<International/>}/> */}
+                </Route>
+
+
+
+
+
+
+
+              
+
+
+            {/* Define routes and its children */}
+            <Routes>
+                <Route path="/" element={<Home1/>}/>
+                <Route path="/About1" element={<About1/>}/>
+                <Route path="/Packages1" element={<Packages1/>}>
+                    <Route path="" element={<Domestic/>}/>
+                    <Route path="International" element={<International/>}/>
+                </Route>
+                <Route path="/Register1" element={<Register1/>}/>
+            </Routes>
+
+          <Footer1/>
+
+
+        </div>
+        
+
+
+
+
+    )
+}
+
+export default App
+
+
+//Packages
+import React from 'react'
+import {Link, Outlet} from 'react-router-dom'
+
+function Packages1() {
+    return (
+        <div className="container">
+            <h1>Package1</h1>
+            <ul className="nav justify-content-center">
+                <li className="nav-item">
+                    <Link className="nav-link active" to="">Domestic</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active" to="International">International</Link>
+                 </li>
+            </ul>
+            
+            <div className='conatiner'>
+                <Outlet/>
+            </div>
+               
+        </div>
+    )
+}
+
+export default Packages1

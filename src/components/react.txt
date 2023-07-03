@@ -1,0 +1,94 @@
+import React from 'react'
+import {Link, Outlet} from 'react-router-dom'
+
+function Packages1() {
+    return (
+        <div className="container">
+            <h1>Package1</h1>
+            <ul className="nav justify-content-center">
+                <li className="nav-item">
+                    <Link className="nav-link active" to="">Domestic</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active" to="International">International</Link>
+                 </li>
+            </ul>
+            <div className='conatiner'>
+                <Outlet/>
+            </div>
+               
+        </div>
+    )
+}
+
+
+
+
+{/* Carousel */}
+          <div class="carousel slide" data-bs-ride="carousel" id="cr">
+        {/* carousel-indicator */}
+        <div class="carousel-indicators">
+          <button
+            data-bs-target="#cr"
+            data-bs-slide-to="0"
+            class="active"
+          ></button>
+          <button
+            data-bs-target="#cr"
+            data-bs-slide-to="1"
+            class="active"
+          ></button>
+          <button
+            data-bs-target="#cr"
+            data-bs-slide-to="2"
+            class="active"
+          ></button>
+        </div>
+
+        {/* carousel inner */}
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-intervel="1000">
+            <img src="images/hero 3.jpg" alt="" class="w-100" />
+            {/* carousel-caption */}
+            <div class="carousel-caption">
+              <h1>Figure-1</h1>
+              <p>Bol Banjara</p>
+            </div>
+          </div>
+          <div class="carousel-item" data-bs-intervel="1000">
+            <img src="images/img.11.jpg" alt="" class="w-100" />
+            {/* carousel-caption */}
+            <div class="carousel-caption">
+              <h1>Figure-2</h1>
+              <p>Bol Banjara</p>
+            </div>
+          </div>
+          <div class="carousel-item" data-bs-intervel="1000">
+            <img src="images/img.12.jpeg" alt="" class="w-100" />
+            {/* carousel-caption */}
+            <div class="carousel-caption">
+              <h1>Figure-3</h1>
+              <p>Bol Banjara</p>
+            </div>
+          </div>
+        </div>
+        {/* carousel controls */}
+        <button
+          class="carousel-control-prev"
+          data-bs-slide="prev"
+          data-bs-target="#cr"
+        >
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button
+          class="carousel-control-next"
+          data-bs-slide="next"
+          data-bs-target="#cr"
+        >
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+      <br />
+      <br />
+
+
